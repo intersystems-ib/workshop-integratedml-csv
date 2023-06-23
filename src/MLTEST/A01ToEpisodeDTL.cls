@@ -15,7 +15,7 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 <assign value='##class("%Library.UTC").ConvertHorologToTimeStamp($ZDATETIMEH($EXTRACT(source.{PV1:AdmitDateTime},1,8)_" "_$EXTRACT(source.{PV1:AdmitDateTime},9,10)_":"_$EXTRACT(source.{PV1:AdmitDateTime},11,12)_":"_$EXTRACT(source.{PV1:AdmitDateTime},13,14),15,1))' property='target.AdmissionDate' action='set' />
 <assign value='$ZD($H,8)-$ZD($ZDH(source.GetValueAt("PID:DateTimeofBirth.Time"),8),8)\10000' property='target.Age' action='set' />
 <assign value='..Lookup("SexHL7",source.{PID:AdministrativeSex})' property='target.Sex' action='set' />
-<assign value='$SYSTEM.SQL.Functions.DAYOFWEEK(target.AdmissionDate)' property='target.AdmissionWeekDay' action='set' disabled='1' />
+<assign value='$SYSTEM.SQL.Functions.DAYOFWEEK(##class("%Library.UTC").ConvertHorologToTimeStamp($ZDATETIMEH($EXTRACT(source.{PV1:AdmitDateTime},1,8)_" "_$EXTRACT(source.{PV1:AdmitDateTime},9,10)_":"_$EXTRACT(source.{PV1:AdmitDateTime},11,12)_":"_$EXTRACT(source.{PV1:AdmitDateTime},13,14),15,1)))' property='target.AdmissionWeekDay' action='set' />
 </transform>
 }
 

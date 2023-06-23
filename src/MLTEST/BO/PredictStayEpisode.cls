@@ -1,4 +1,4 @@
-Class MLTEST.BO.SaveEpisode Extends Ens.BusinessOperation
+Class MLTEST.BO.PredictStayEpisode Extends Ens.BusinessOperation
 {
 
 Property ModelName As %String(MAXLEN = 100);
@@ -9,13 +9,12 @@ Parameter SETTINGS = "ModelName";
 Parameter INVOCATION = "Queue";
 
 /// Description
-Method SaveEpisode(pRequest As MLTEST.Data.Episode, pResponse As MLTEST.Data.Episode) As %Status
+Method PredictStay(pRequest As MLTEST.Data.PredictionRequest, pResponse As MLTEST.Data.PredictionResponse) As %Status
 {
-
+    set predictionRequest = pRequest
+    set pResponse = ##class("MLTEST.Data.PredictionResponse").%New()
+    set pResponse.EpisodeId = predictionRequest.EpisodeId
     set tSC = $$$OK
-    set episode = pRequest
-    set tSC = episode.%Save()
-    $$$TRACE(episode.%Id())
     // CHECK IF MODEL EXISTS 
     set sql = "SELECT MODEL_NAME FROM INFORMATION_SCHEMA.ML_MODELS WHERE MODEL_NAME = '"_..ModelName_"'"
     set statement = ##class(%SQL.Statement).%New()
@@ -32,11 +31,10 @@ Method SaveEpisode(pRequest As MLTEST.Data.Episode, pResponse As MLTEST.Data.Epi
                     set statementPredict = ##class(%SQL.Statement).%New(), statement.%ObjectSelectMode = 1
                     set statusPredict = statementPredict.%Prepare(sqlPredict)
                     if ($$$ISOK(statusPredict)) {
-                        set resultSetPredict = statementPredict.%Execute(episode.%Id())
+                        set resultSetPredict = statementPredict.%Execute(predictionRequest.EpisodeId)
                         if (resultSetPredict.%SQLCODE = 0) {
                                 while (resultSetPredict.%Next() '= 0) {
-                                    set episode.PredictedStay = resultSetPredict.%GetData(1)
-                                    set tSC = episode.%Save()
+                                    set pResponse.PredictedStay = resultSetPredict.%GetData(1)
                                 }
                         }
                     }
@@ -72,11 +70,10 @@ Method SaveEpisode(pRequest As MLTEST.Data.Episode, pResponse As MLTEST.Data.Epi
                                         set statementPredict = ##class(%SQL.Statement).%New(), statement.%ObjectSelectMode = 1
                                         set statusPredict = statementPredict.%Prepare(sqlPredict)
                                         if ($$$ISOK(statusPredict)) {
-                                            set resultSetPredict = statementPredict.%Execute(episode.%Id())
+                                            set resultSetPredict = statementPredict.%Execute(predictionRequest.EpisodeId)
                                             if (resultSetPredict.%SQLCODE = 0) {
                                                 while (resultSetPredict.%Next() '= 0) {
-                                                    set episode.PredictedStay = resultSetPredict.%GetData(1)
-                                                    set tSC = episode.%Save()
+                                                    set pResponse.PredictedStay = resultSetPredict.%GetData(1)
                                                 }
                                             }
                                         }
@@ -104,15 +101,14 @@ Method SaveEpisode(pRequest As MLTEST.Data.Episode, pResponse As MLTEST.Data.Epi
     else {
         set tSC = status
     }
-    set pResponse = episode
     quit tSC
 }
 
 XData MessageMap
 {
 <MapItems>
-  <MapItem MessageType="MLTEST.Data.Episode">
-    <Method>SaveEpisode</Method>
+  <MapItem MessageType="MLTEST.Data.PredictionRequest">
+    <Method>PredictStay</Method>
   </MapItem>
 </MapItems>
 }

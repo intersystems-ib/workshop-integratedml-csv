@@ -29,14 +29,15 @@ XData ProductionDefinition
     <Setting Target="Adapter" Name="FilePath">/shared/hl7/in/</Setting>
     <Setting Target="Host" Name="TargetConfigNames">MLTEST.BP.RecordToEpisodeBPL</Setting>
     <Setting Target="Host" Name="DefCharEncoding">utf-8</Setting>
+    <Setting Target="Adapter" Name="FileSpec">*.hl7</Setting>
   </Item>
-  <Item Name="MLTEST.BO.SaveEpisode" Category="" ClassName="MLTEST.BO.SaveEpisode" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+  <Item Name="MLTEST.BO.PredictStayEpisode" Category="" ClassName="MLTEST.BO.PredictStayEpisode" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
     <Setting Target="Host" Name="ModelName">StayModel</Setting>
   </Item>
   <Item Name="MLTEST.ADTA01ToEpisode" Category="" ClassName="EnsLib.HL7.MsgRouter.RoutingEngine" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Host" Name="BusinessRuleName">MLTEST.ADTA01ToEpisode</Setting>
   </Item>
-  <Item Name="MLTEST.BP.RecordToEpisodeBPL" Category="" ClassName="MLTEST.BP.RecordToEpisodeBPL" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+  <Item Name="MLTEST.BP.RecordToEpisodeBPL" Category="" ClassName="MLTEST.BP.RecordToEpisodeBPL" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
   </Item>
 </Production>
 }
