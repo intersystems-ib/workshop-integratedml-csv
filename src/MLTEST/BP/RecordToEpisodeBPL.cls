@@ -22,10 +22,7 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 </context>
 <sequence xend='200' yend='650' >
 <transform name='ADT^A01 to Episode' class='MLTEST.A01ToEpisodeDTL' source='request' target='context.episode' xpos='200' ypos='250' />
-<code name='Create prediction request' xpos='200' ypos='350' >
-<![CDATA[ do context.episode.%Save()
- set context.predictionRequest.EpisodeId = context.episode.%Id()]]>
-</code>
+<assign name="Create prediction request" property="context.predictionRequest.EpisodeId" value="context.episode.%Id()" action="set" xpos='200' ypos='350' />
 <call name='Calculate stay' target='MLTEST.BO.PredictStayEpisode' async='0' xpos='200' ypos='450' >
 <request type='MLTEST.Data.PredictionRequest' >
 <assign property="callrequest" value="context.predictionRequest" action="set" />

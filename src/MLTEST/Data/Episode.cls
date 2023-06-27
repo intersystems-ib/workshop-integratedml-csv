@@ -17,9 +17,9 @@ Property Age As %Integer;
 
 Property Sex As %Integer;
 
-Property Stay As %Integer;
+Property Stay As %Float;
 
-Property PredictedStay As %Integer;
+Property PredictedStay As %Float;
 
 Storage Default
 {
