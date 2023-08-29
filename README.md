@@ -33,6 +33,7 @@ Automatically an IRIS instance will be deployed and a production will be configu
 
 * Open the [Management Portal](http://localhost:52774/csp/sys/UtilHome.csp).
 * Login using the default `superuser`/ `SYS` account.
+* Select Namespace **MLTEST** 
 * Click on [Test Production](http://localhost:52774/csp/user/EnsPortal.ProductionConfig.zen?$NAMESPACE=MLTEST&$NAMESPACE=MLTEST&) to access the sample production that we are going to use. You can access also through *Interoperability > User > Configure > Production*.
 * Click on CSVToEpisodeTrain Business Service and review the configuration, check the input folder. From Visual Studio Code copy *train-data.csv* and paste it into */shared/csv/trainIn*
 * Do the same for CSVToEpisode Business Service, from Visual Studio Code copy *test-data.csv* and paste it into */shared/csv/newIn*
